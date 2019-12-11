@@ -41,12 +41,50 @@ function bootstrap () {
   ])
   tray.setContextMenu(contextMenu)
 
-  powerMonitor.on('unlock-screen', () => {
-    win.webContents.send('device-unlocked', {})
-  })
-
+  powerMonitor
+    .on('suspend', () => {
+      win.webContents.send('device-suspend', {})
+    })
+    .on('resume', () => {
+      win.webContents.send('device-resume', {})
+    })
+    .on('on-ac', () => {
+      win.webContents.send('device-on-ac', {})
+    })
+    .on('on-battery', () => {
+      win.webContents.send('device-on-battery', {})
+    })
+    .on('lock-screen', () => {
+      win.webContents.send('device-locked', {})
+    })
+    .on('unlock-screen', () => {
+      win.webContents.send('device-unlocked', {})
+    })
+  let last_status
   setInterval(() => {
-    console.log(powerMonitor.getSystemIdleState(15))
+    let device_status = powerMonitor.getSystemIdleState(10)
+    switch (device_status) {
+      case 'active':
+        if (last_status != device_status) {
+          console.log(device_status)
+        }
+        last_status = device_status
+        break;
+      case 'idle':
+        if (last_status != device_status) {
+          console.log(device_status)
+        }
+        last_status = device_status
+        break;
+      case 'locked':
+        if (last_status != device_status) {
+          console.log(device_status)
+          last_status = device_status
+        }
+        break;
+      default:
+        break;
+    }
   }, 1000);
 }
 
