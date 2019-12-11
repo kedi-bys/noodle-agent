@@ -51,4 +51,4 @@ class LogManager {
   }
 }
 
-module.exports = Logger
+module.exports = LogManager
