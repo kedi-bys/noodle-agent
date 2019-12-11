@@ -7,7 +7,7 @@ const DataManager = require('./src/DataManager')
 // env variable'ları oluştur
 dotenv.config()
 
-const logger = new Logger()
+const logger = new LogManager()
 
 // Agent başlatıldı bilgisi
 logger.Success(`Agent çalışıyor.`)
