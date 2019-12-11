@@ -1,0 +1,5 @@
+@keyframes pending {
+  0% { background-color: #ffbb33; }
+  50% { background-color: #FF8800; }
+  100% { background-color: #ffbb33; }
+}

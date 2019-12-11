@@ -37,6 +37,7 @@ body {
   align-items: center;
   justify-content: flex-end;
   padding: 0 6px;
+  transition: background-color .3s;
 }
 
 .system-bar.online {
@@ -44,7 +45,10 @@ body {
 }
 
 .system-bar.pending {
-  background-color: #ffc107;
+  /* background-color: #ffc107; */
+  animation-name: pending;
+  animation-iteration-count: infinite;
+  animation-duration: 3s;
 }
 
 .system-bar.offline {
