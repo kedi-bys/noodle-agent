@@ -8,7 +8,7 @@ let tray
 
 function bootstrap () {
   win = new BrowserWindow({
-    show: false,
+    // show: false,
     width: WIDTH,
     height: HEIGHT,
     backgroundColor: '#2f3241',
@@ -46,7 +46,7 @@ function bootstrap () {
       win.webContents.send('device-suspend', {})
     })
     .on('resume', () => {
-      win.webContents.send('device-resume', {})
+      win.webContents.send('device-resumed', {})
     })
     .on('on-ac', () => {
       win.webContents.send('device-on-ac', {})
