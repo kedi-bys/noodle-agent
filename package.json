@@ -1,0 +1,23 @@
+{
+  "name": "noodle-agent",
+  "version": "1.0.0",
+  "description": "",
+  "private": true,
+  "main": "main.js",
+  "scripts": {
+    "start": "electron .",
+    "pack:win": "electron-packager . NoodleAgent --out=builds --platform=win32 --arch=x64 --overwrite --icon=eye.ico"
+  },
+  "keywords": [],
+  "author": "Kerem Dinçer",
+  "license": "ISC",
+  "devDependencies": {
+    "electron": "^7.1.4",
+    "electron-packager": "^14.1.1"
+  },
+  "dependencies": {
+    "dotenv": "^8.2.0",
+    "socket.io-client": "^2.3.0",
+    "systeminformation": "^4.16.0"
+  }
+}

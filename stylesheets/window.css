@@ -1,0 +1,95 @@
+* {
+  padding: 0;
+  margin: 0;
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+html,
+body {
+  width: 100%;
+  height: 100%;
+}
+
+body {
+  display: flex;
+  flex-direction: column;
+}
+
+::-webkit-scrollbar {
+  width: 2px;
+}
+
+::-webkit-scrollbar-track {
+  background:#bbb;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #999;
+}
+
+.status-bar,
+.system-bar {
+  height: 22px;
+  font-size: 12px;
+  background-color: rgb(0, 122, 204);
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  padding: 0 6px;
+}
+
+.system-bar.online {
+  background-color: #28a745;
+}
+
+.system-bar.pending {
+  background-color: #ffc107;
+}
+
+.system-bar.offline {
+  background-color: #dc3545;
+}
+
+.inner {
+  flex: 1;
+  color: #bbb;
+  padding: 8px;
+  overflow: auto;
+}
+
+.inner .log {
+  font-size: 12px;
+  margin: 5px 0;
+}
+
+.inner .log span {
+  padding: 2px 4px;
+}
+
+.inner .log.default span {
+  color: #777;
+}
+
+.inner .log.warning span {
+  color: #ffc107;
+}
+
+.inner .log.success span {
+  color: #28a745;
+}
+
+.inner .log.error span {
+  color: #dc3545;
+}
+
+.inner .log.fatal span {
+  background: #dc3545;
+  color: #fff;
+}
+
+.inner .log::before {
+  content: '>';
+  padding-right: 4px;
+}
+
