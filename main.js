@@ -1,4 +1,8 @@
 const { app, BrowserWindow, Tray, Menu, screen, powerMonitor } = require('electron')
+const dotenv = require('dotenv')
+
+// env variable'ları oluştur
+dotenv.config()
 
 const WIDTH = 280
 const HEIGHT = 380
@@ -6,7 +10,7 @@ const HEIGHT = 380
 let win
 let tray
 
-function bootstrap () {
+function bootstrap() {
   win = new BrowserWindow({
     // show: false,
     width: WIDTH,
@@ -60,35 +64,36 @@ function bootstrap () {
     .on('unlock-screen', () => {
       win.webContents.send('device-unlocked', {})
     })
+
   let last_status
   setInterval(() => {
-    let device_status = powerMonitor.getSystemIdleState(10)
+    let device_status = powerMonitor.getSystemIdleState(Number(process.env.IDLE_TIME))
     switch (device_status) {
       case 'active':
         if (last_status != device_status) {
           console.log(device_status)
         }
         last_status = device_status
-        break;
+        break
       case 'idle':
         if (last_status != device_status) {
           console.log(device_status)
         }
         last_status = device_status
-        break;
+        break
       case 'locked':
         if (last_status != device_status) {
           console.log(device_status)
           last_status = device_status
         }
-        break;
+        break
       default:
-        break;
+        break
     }
-  }, 1000);
+  }, 1000)
 }
 
-function onContextMenuDebugClicked () {
+function onContextMenuDebugClicked() {
   if (win.isVisible()) {
     win.hide()
   } else {
@@ -96,7 +101,7 @@ function onContextMenuDebugClicked () {
   }
 }
 
-function onContextMenuCloseClicked () {
+function onContextMenuCloseClicked() {
   win.close()
 }
 
