@@ -25,6 +25,7 @@ class SocketManager {
           this.logger.Fatal('Sunucu ile bağlantı kurulamadı.')
           this.logger.Notify('Bağlantı başarısız.', 'offline')
           this.socket.disconnect()
+          this.TryConnect()
         }
       }, 5000)
     }
