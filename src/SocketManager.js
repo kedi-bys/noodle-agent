@@ -8,6 +8,7 @@ class SocketManager {
     this.url = url
     this.logger = logger
     this.TryConnect()
+    this.messageBuffer = []
   }
 
   TryConnect () {
@@ -37,11 +38,31 @@ class SocketManager {
   OnConnect () {
     this.logger.Success('Sunucuya bağlanıldı.')
     this.logger.Notify('Bağlandı', 'online')
+
+    // Buffer'ı kontrol et
+    if (this.messageBuffer.length) {
+      this.messageBuffer.forEach(msg => this.socket.emit(msg.type, msg.content))
+      this.messageBuffer = []
+    }
   }
 
   OnDisconnect () {
     this.logger.Fatal('Sunucu bağlantısı koptu.')
     this.logger.Notify('Bağlantı başarısız.', 'offline')
+  }
+
+  /**
+   * 
+   * @param {string} type Sunucuda yakalanacak socket event'i
+   * @param {any} content 
+   */
+  Emit(type, content) {
+    if (this.socket && this.socket.connected) {
+      console.log('EMIT')
+      this.socket.emit(type, content)
+    } else {
+      this.messageBuffer.push({type, content})
+    }
   }
 }
 
