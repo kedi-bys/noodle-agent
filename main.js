@@ -71,22 +71,22 @@ function bootstrap() {
     switch (device_status) {
       case 'active':
         if (last_status != device_status) {
-          console.log(device_status)
+          win.webContents.send(`user-active`, {})
         }
         last_status = device_status
         break
       case 'idle':
         if (last_status != device_status) {
-          console.log(device_status)
+          win.webContents.send(`user-idle`, {})
         }
         last_status = device_status
         break
-      case 'locked':
-        if (last_status != device_status) {
-          console.log(device_status)
-          last_status = device_status
-        }
-        break
+      // case 'locked':
+      //   if (last_status != device_status) {
+      //     win.webContents.send('device-locked', {})          
+      //   }
+      //   last_status = device_status
+      //   break
       default:
         break
     }

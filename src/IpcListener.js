@@ -22,4 +22,10 @@ module.exports = (ipcRenderer, socketManager, logger) => {
     .on('device-unlocked', () => {
       logger.Warning(`Oturum açıldı.`)
     })
+    .on('user-active', () => {
+      logger.Success(`Kullanıcı aktif durumda.`)
+    })
+    .on('user-idle', () => {
+      logger.Warning(`Kullanıcı bekleme durumunda.`)
+    })
 }
