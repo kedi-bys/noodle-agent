@@ -1,4 +1,10 @@
-module.exports = (ipcRenderer, socketManager, logger) => {
+/**
+ * 
+ * @param {ipcRenderer} ipcRenderer 
+ * @param {SocketManager} socketManager 
+ * @param {Logger} logger 
+ */
+const IpcListener = (ipcRenderer, socketManager, logger) => {
   ipcRenderer
     .on('device-suspend', () => {
       logger.Warning('Cihaz uyku moduna geçti.')
@@ -34,3 +40,5 @@ module.exports = (ipcRenderer, socketManager, logger) => {
       socketManager.Emit('user-idle', 'Kullanıcı bekleme durumda.')     
     })
 }
+
+module.exports = IpcListener
