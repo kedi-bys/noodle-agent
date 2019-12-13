@@ -1,8 +1,11 @@
+const SocketManager = require('./SocketManager')
+const LogManager = require('./LogManager')
+
 /**
- * 
- * @param {ipcRenderer} ipcRenderer 
- * @param {SocketManager} socketManager 
- * @param {Logger} logger 
+ *
+ * @param {ipcRenderer} ipcRenderer
+ * @param {SocketManager} socketManager
+ * @param {LogManager} logger
  */
 const IpcListener = (ipcRenderer, socketManager, logger) => {
   ipcRenderer
@@ -25,7 +28,7 @@ const IpcListener = (ipcRenderer, socketManager, logger) => {
     })
     .on('device-locked', () => {
       logger.Warning('Oturum kilitli.')
-      socketManager.Emit('device-locked','Oturum Kilitli.')
+      socketManager.Emit('device-locked', 'Oturum Kilitli.')
     })
     .on('device-unlocked', () => {
       logger.Warning('Oturum açıldı.')
@@ -36,8 +39,8 @@ const IpcListener = (ipcRenderer, socketManager, logger) => {
       socketManager.Emit('user-active', 'Kullanıcı aktif durumda.')
     })
     .on('user-idle', () => {
-      logger.Warning('Kullanıcı bekleme durumunda.') 
-      socketManager.Emit('user-idle', 'Kullanıcı bekleme durumda.')     
+      logger.Warning('Kullanıcı bekleme durumunda.')
+      socketManager.Emit('user-idle', 'Kullanıcı bekleme durumda.')
     })
 }
 
