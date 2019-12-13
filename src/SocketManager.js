@@ -1,5 +1,5 @@
 const client = require('socket.io-client')
-
+const si = require('systeminformation')
 /**
  * Bütün socket bağlantı ve haberleşme işlemlerini organize edecek class.
  */
@@ -57,9 +57,12 @@ class SocketManager {
    * @param {string} type Sunucuda yakalanacak socket event'i
    * @param {any} content 
    */
-  Emit(type, content) {
+  async Emit(type, content) {
+    let user = ((await si.users())[0]).user
+    let hostname = (await si.osInfo()).hostname
+    content.username = user
+    content.hostname = hostname
     if (this.socket && this.socket.connected) {
-      console.log('EMIT')
       this.socket.emit(type, content)
     } else {
       this.messageBuffer.push({type, content})
