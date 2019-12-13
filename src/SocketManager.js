@@ -61,7 +61,7 @@ class SocketManager {
     let user = ((await si.users())[0]).user
     let hostname = (await si.osInfo()).hostname
     content.username = user
-    content.hostname = hostname
+    content.hostname = hostname.toLocaleUpperCase()
     if (this.socket && this.socket.connected) {
       this.socket.emit(type, content)
     } else {
