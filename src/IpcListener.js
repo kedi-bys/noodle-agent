@@ -8,6 +8,7 @@ const IpcListener = (ipcRenderer, socketManager, logger) => {
   ipcRenderer
     .on('device-suspend', () => {
       logger.Warning('Cihaz uyku moduna geçti.')
+      socketManager.Emit('device-sleep', { device_sleep: true })
     })
     // Cihaz uyandığında socket bağlantısı muhtemelen kopmuş olacak. Bu event
     // geldiğinde SocketManager'ın tekrar bağlanmasını sağlamak lazım. Eğer
@@ -15,29 +16,31 @@ const IpcListener = (ipcRenderer, socketManager, logger) => {
     .on('device-resumed', () => {
       logger.Warning('Cihaz uyandırıldı.')
       socketManager.TryConnect()
+      socketManager.Emit('device-sleep', { device_sleep: false })
     })
     .on('device-on-ac', () => {
       logger.Warning('Cihaz AC gücüyle çalışıyor.')
-      socketManager.Emit('device-on-ac', 'Cihaz AC gücüyle çalışıyor.')
+      socketManager.Emit('device-on-battery', { device_on_battery: false })
     })
     .on('device-on-battery', () => {
       logger.Warning('Cihaz batarya gücüyle çalışıyor.')
+      socketManager.Emit('device-on-battery', { device_on_battery: true  })
     })
     .on('device-locked', () => {
       logger.Warning('Oturum kilitli.')
-      socketManager.Emit('device-locked','Oturum Kilitli.')
+      socketManager.Emit('device-locked', { device_locked: true })
     })
     .on('device-unlocked', () => {
       logger.Warning('Oturum açıldı.')
-      socketManager.Emit('device-unlocked', 'Oturum Açıldı.')
+      socketManager.Emit('device-locked', { device_locked: false })
     })
     .on('user-active', () => {
       logger.Success('Kullanıcı aktif durumda.')
-      socketManager.Emit('user-active', 'Kullanıcı aktif durumda.')
+      socketManager.Emit('user-idle', { user_idle: false })
     })
     .on('user-idle', () => {
       logger.Warning('Kullanıcı bekleme durumunda.') 
-      socketManager.Emit('user-idle', 'Kullanıcı bekleme durumda.')     
+      socketManager.Emit('user-idle', { user_idle: true })     
     })
 }
 
