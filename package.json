@@ -11,7 +11,7 @@
     "installer:win": "npm run pack:win && npm run setup:win"
   },
   "keywords": [],
-  "author": "kedi-bys ",
+  "author": "noodle-inc ",
   "license": "ISC",
   "devDependencies": {
     "electron": "^7.1.4",
