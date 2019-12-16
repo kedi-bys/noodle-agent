@@ -5,3 +5,5 @@ builds/
 package-lock.json
 
 .env
+
+./resources/env.json
