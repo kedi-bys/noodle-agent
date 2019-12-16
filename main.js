@@ -1,6 +1,7 @@
 const { app, BrowserWindow, Tray, Menu, screen, powerMonitor } = require('electron')
 const fs = require('fs')
-let rawenv = fs.readFileSync('./env.json')
+const path = require('path')
+let rawenv = fs.readFileSync(path.join(__dirname, 'env.json'))
 let env = JSON.parse(rawenv)
 
 // env variable'ları oluştur
@@ -34,9 +35,9 @@ function bootstrap() {
 
   win.loadFile('./index.html')
 
-  tray = new Tray('./src/img/eye-16x16.png')
+  tray = new Tray(path.join(__dirname, 'eye.ico'))
   // tray.displayBalloon({
-  //   icon: './resources/eye-256x256.png',
+  //   icon: './eye.ico',
   //   title: 'Agent',
   //   content: 'v0.1'
   // })

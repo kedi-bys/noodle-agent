@@ -1,13 +1,14 @@
 const { ipcRenderer } = require('electron')
 // const dotenv = require('dotenv')
 const fs = require('fs')
+const path = require('path')
 const LogManager = require('./helpers/LogManager')
 const SocketManager = require('./helpers/SocketManager')
 const DataManager = require('./helpers/DataManager')
 
 // env variable'ları oluştur
 // dotenv.config()
-let rawenv = fs.readFileSync('./env.json')
+let rawenv = fs.readFileSync(path.join(__dirname,'env.json'))
 let env = JSON.parse(rawenv)
 
 const logger = new LogManager()
