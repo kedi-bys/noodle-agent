@@ -6,7 +6,7 @@
   "main": "main.js",
   "scripts": {
     "start": "electron .",
-    "pack:win": "electron-packager . noodle-agent --out builds --platform win32 --arch x64 --overwrite --icon eye.ico --asar",
+    "pack:win": "electron-packager . noodle-agent --out builds --platform win32 --arch x64 --overwrite --icon ./src/img/eye.ico --asar",
     "setup:win": "electron-installer-windows --src builds/noodle-agent-win32-x64/ --dest builds/installers/"
   },
   "keywords": [],
