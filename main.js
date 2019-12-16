@@ -1,11 +1,20 @@
 const { app, BrowserWindow, Tray, Menu, screen, powerMonitor } = require('electron')
 const fs = require('fs')
 const path = require('path')
+const appFolder = path.dirname(process.execPath)
+const updateExe = path.resolve(appFolder, '..', 'Update.exe')
+const exeName = path.basename(process.execPath)
+
 let rawenv = fs.readFileSync(path.join(__dirname, 'env.json'))
 let env = JSON.parse(rawenv)
 
-// env variable'ları oluştur
-// dotenv.config()
+if (require('electron-squirrel-startup')) app.quit()
+// if first time install on windows, do not run application, rather
+// let squirrel installer do its work
+const setupEvents = require(path.join(__dirname,'installers','setup-events'))
+if (setupEvents.handleSquirrelEvent()) {
+  process.exit()
+}
 
 const WIDTH = 280
 const HEIGHT = 380
@@ -35,12 +44,12 @@ function bootstrap() {
 
   win.loadFile('./index.html')
 
-  tray = new Tray(path.join(__dirname, 'eye.ico'))
-  // tray.displayBalloon({
-  //   icon: './eye.ico',
-  //   title: 'Agent',
-  //   content: 'v0.1'
-  // })
+  tray = new Tray(path.join(__dirname, 'noodle.ico'))
+  tray.displayBalloon({
+    icon: path.join(__dirname, 'noodle.ico'),
+    title: 'Agent',
+    content: 'v0.1'
+  })
 
   const contextMenu = Menu.buildFromTemplate([
     { label: 'Kapat', type: "normal", click: onContextMenuCloseClicked },
@@ -129,4 +138,17 @@ app.on('activate', () => {
   if (win === null) {
     bootstrap()
   }
+})
+
+// app.setLoginItemSettings({
+//   openAtLogin: true,
+//   path: updateExe,
+//   args: [
+//     '--processStart', `"${exeName}"`,
+//     '--process-start-args', `"--hidden"`
+//   ]
+// })
+app.requestSingleInstanceLock()
+app.on('second-instance', (event, argv, cwd) => {
+  app.quit()
 })

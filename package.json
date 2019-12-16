@@ -1,13 +1,14 @@
 {
   "name": "noodle-agent",
-  "version": "1.0.0",
+  "version": "0.0.1",
   "description": "NoodleAgent",
   "private": true,
   "main": "main.js",
   "scripts": {
     "start": "electron .",
-    "pack:win": "electron-packager . noodle-agent --out builds --platform win32 --arch x64 --overwrite --icon eye.ico --asar",
-    "setup:win": "electron-installer-windows --src builds/noodle-agent-win32-x64/ --dest builds/installers/"
+    "pack:win": "electron-packager . noodle-agent --out builds --platform win32 --arch x64 --overwrite --icon noodle.ico --asar",
+    "setup:win": "electron-installer-windows --src builds/noodle-agent-win32-x64/ --dest builds/installers/",
+    "installer:win": "npm run pack:win && npm run setup:win"
   },
   "keywords": [],
   "author": "kedi-bys ",
@@ -19,6 +20,7 @@
   },
   "dependencies": {
     "dotenv": "^8.2.0",
+    "electron-squirrel-startup": "^1.0.0",
     "socket.io-client": "^2.3.0",
     "systeminformation": "^4.16.0",
     "windows-event-reader": "^1.0.1"
