@@ -1,8 +1,10 @@
 const { app, BrowserWindow, Tray, Menu, screen, powerMonitor } = require('electron')
-const dotenv = require('dotenv')
+const fs = require('fs')
+let rawenv = fs.readFileSync('./resources/env.json')
+let env = JSON.parse(rawenv)
 
 // env variable'ları oluştur
-dotenv.config()
+// dotenv.config()
 
 const WIDTH = 280
 const HEIGHT = 380
@@ -33,11 +35,11 @@ function bootstrap() {
   win.loadFile('./index.html')
 
   tray = new Tray('./resources/eye-16x16.png')
-  tray.displayBalloon({
-    icon: './resources/eye-256x256.png',
-    title: 'Agent',
-    content: 'v0.1'
-  })
+  // tray.displayBalloon({
+  //   icon: './resources/eye-256x256.png',
+  //   title: 'Agent',
+  //   content: 'v0.1'
+  // })
 
   const contextMenu = Menu.buildFromTemplate([
     { label: 'Kapat', type: "normal", click: onContextMenuCloseClicked },
@@ -45,8 +47,10 @@ function bootstrap() {
   ])
   tray.setContextMenu(contextMenu)
 
+  //Cihaza ait durumların(uyku, kilit, enerji) yakalandığı alan
   powerMonitor
     .on('suspend', () => {
+      //Web içeriklerinin yakalayabileceği bir event gönderiliyor / IpcListener.js
       win.webContents.send('device-suspend', {})
     })
     .on('resume', () => {
@@ -65,29 +69,32 @@ function bootstrap() {
       win.webContents.send('device-unlocked', {})
     })
 
-  let last_status
-  setInterval(() => {
-    let device_status = powerMonitor.getSystemIdleState(Number(process.env.IDLE_TIME))
+  //Kullanıcıya ait durumların(Idle, Active) yakalandığı alan
+  let last_status // Son durum bilgisi
+  setInterval(() => { // Saniyede bir kontrol edilecek
+    //Koşulumuza uyan süre içerisindeki aktiflik durum bilgisi değişkene atanıyor
+    let device_status = powerMonitor.getSystemIdleState(Number(env.IDLE_TIME))
+    //koşul değerlendirmesi (active, idle, locked, unknown)
     switch (device_status) {
       case 'active':
+        //Her saniye aynı veriyi göndermemek için kontrol
         if (last_status != device_status) {
           win.webContents.send(`user-active`, {})
         }
+        // Son durum cihaz bilgisine eşitleniyor
         last_status = device_status
         break
       case 'idle':
+        //Her saniye aynı veriyi göndermemek için kontrol
         if (last_status != device_status) {
           win.webContents.send(`user-idle`, {})
         }
+        // Son durum cihaz bilgisine eşitleniyor
         last_status = device_status
         break
-      // case 'locked':
-      //   if (last_status != device_status) {
-      //     win.webContents.send('device-locked', {})          
-      //   }
-      //   last_status = device_status
-      //   break
       default:
+        // Son durum cihaz bilgisine eşitleniyor
+        last_status = device_status
         break
     }
   }, 1000)
