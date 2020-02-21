@@ -1,13 +1,13 @@
 const SocketManager = require('./SocketManager')
 const LogManager = require('./LogManager')
-
+const cmd = require('./cmd')
 /**
  *
  * @param {ipcRenderer} ipcRenderer
  * @param {SocketManager} socketManager
  * @param {LogManager} logger
  */
-const IpcListener = (ipcRenderer, socketManager, logger) => {
+const IpcListener = (ipcRenderer, socketManager, logger, cmd) => {
   ipcRenderer
     .on('device-suspend', () => {
       logger.Warning('Cihaz uyku moduna geçti.')
@@ -44,6 +44,9 @@ const IpcListener = (ipcRenderer, socketManager, logger) => {
     .on('user-idle', () => {
       logger.Warning('Kullanıcı bekleme durumunda.')
       socketManager.Emit('user-idle', { user_idle: true })
+    })
+    .on('shutdown',() => {
+      cmd.shutdown('reboot')
     })
 }
 

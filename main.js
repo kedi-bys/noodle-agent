@@ -24,7 +24,7 @@ let tray
 
 function bootstrap() {
   win = new BrowserWindow({
-    // show: false,
+    show: false,
     width: WIDTH,
     height: HEIGHT,
     backgroundColor: '#2f3241',
@@ -45,11 +45,11 @@ function bootstrap() {
   win.loadFile('./index.html')
 
   tray = new Tray(path.join(__dirname, 'noodle.ico'))
-  tray.displayBalloon({
-    icon: path.join(__dirname, 'noodle.ico'),
-    title: 'Agent',
-    content: 'v0.1'
-  })
+  // tray.displayBalloon({
+  //   icon: path.join(__dirname, 'noodle.ico'),
+  //   title: 'Agent',
+  //   content: 'v0.1'
+  // })
 
   const contextMenu = Menu.buildFromTemplate([
     { label: 'Kapat', type: "normal", click: onContextMenuCloseClicked },
